@@ -7,3 +7,9 @@ bounding ellipsoids (MVBEs). Given a set of points *x* at which some
 points *x* by computing the MVBE around the points, moved by their
 values of *χ²* such that, if the problem is exactly linear, all the
 points lie on the same ellipsoid.
+
+Install `bluebell` from PyPI with
+
+    python -m pip install bluebell
+
+Read the documentation on [Read the Docs](https://bluebell.readthedocs.io/).
