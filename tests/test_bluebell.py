@@ -21,7 +21,7 @@ class TestBluebell(unittest.TestCase):
     def test_MVBE_ellipsoid(self):
         for D in range(2, 9):
             mu0, C0 = get_random_mu_and_C(D)
-            x = bb.extrema(mu0, C0)
+            x = bb.vertices(mu0, C0)
             mu1, C1 = bb.MVBE(x)
             np.testing.assert_allclose(mu0, mu1)
             np.testing.assert_allclose(C0, C1)
