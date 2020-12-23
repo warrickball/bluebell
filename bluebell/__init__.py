@@ -74,7 +74,7 @@ def MVBE(x, tol=1e-3, maxiter=1000):
     return mu, C
 
 
-def select_by_relative_chi2(chi2, sigma_inner=1e-9, sigma_outer=np.inf):
+def select_by_relative_chi2(chi2, sigma_inner=1e-7, sigma_outer=np.inf):
     """Returns a logical array that is ``True`` where ``chi2`` relative to
     its minimum is within the range defined by ``sigma_inner`` and
     ``sigma_outer``. i.e. where ``sigma_inner**2 < chi2-np.min(chi2) <
@@ -83,7 +83,7 @@ def select_by_relative_chi2(chi2, sigma_inner=1e-9, sigma_outer=np.inf):
     return (sigma_inner**2 < relative_chi2) & (relative_chi2 < sigma_outer**2)
 
 
-def estimate(x, chi2, sigma_inner=1e-9, sigma_outer=np.inf,
+def estimate(x, chi2, sigma_inner=1e-7, sigma_outer=np.inf,
              tol=1e-3, maxiter=1000):
     """Estimate uncertainties for a sample of points given their
     correspond values of chi-squared.
