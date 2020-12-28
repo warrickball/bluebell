@@ -50,6 +50,22 @@ def MVBE(x, tol=1e-3, maxiter=1000):
     C: 2-d NumPy array of shape (D,D)
         Covariance matrix that defines the ellipsoid.
 
+    Example
+    -------
+
+    .. plot::
+       :include-source:
+
+       import matplotlib.pyplot as pl
+       import bluebell as bb
+       import bluebell.plot as bbplot
+
+       x = np.random.rand(10,2)
+       mu, C = bb.MVBE(x)
+
+       pl.plot(*x.T, 'o')
+       bbplot.cov_ellipse(mu, C, fc='none', ec='k')
+
     """
     N, D = x.shape
     I = np.eye(N)
@@ -220,7 +236,22 @@ def linear_optimum(x, y, obs, err, weights=None, rcond=None):
 
 def uniform_on_unit_sphere(N, D):
     """Draw ``N`` points uniformly distributed on the surface of a
-    ``D``-dimensional unit sphere."""
+    ``D``-dimensional unit sphere.
+
+    Example
+    -------
+
+    .. plot::
+       :include-source:
+
+       import matplotlib.pyplot as pl
+       import bluebell as bb
+       import bluebell.plot as bbplot
+
+       x = bb.uniform_on_unit_sphere(10, 2)
+       pl.plot(*x.T, 'o')
+       bbplot.cov_ellipse(np.zeros(2), np.eye(2), fc='none', ec='k')
+    """
     x = np.random.randn(N, D)
     x = x/np.sqrt(np.sum(x**2, axis=1)).reshape((-1,1))
     return x
@@ -233,7 +264,25 @@ def sphere_to_ellipsoid(x, mu, C):
 
 def uniform_on_ellipsoid(mu, C, N):
     """Draw ``N`` points uniformly distributed on the surface of the
-    ellipsoid define by mean ``mu`` and covariance ``C``."""
+    ellipsoid define by mean ``mu`` and covariance ``C``.
+
+    Example
+    -------
+
+    .. plot::
+       :include-source:
+
+       import matplotlib.pyplot as pl
+       import bluebell as bb
+       import bluebell.plot as bbplot
+
+       mu = np.random.rand(2)
+       A = np.random.rand(2,2)
+       C = A.T.dot(A)
+       x = bb.uniform_on_ellipsoid(mu, C, 10)
+       pl.plot(*x.T, 'o')
+       bbplot.cov_ellipse(mu, C, fc='none', ec='k')
+    """
     # https://math.stackexchange.com/a/982833
     # μ² = (dS'/dS)² = (abc…)²((x/a)²+(y/b)²+(z/c)²+…),
     # where (x,y,z,…) are points on sphere
@@ -255,7 +304,25 @@ def uniform_on_ellipsoid(mu, C, N):
 
 def uniform_in_ellipsoid(mu, C, N):
     """Draw ``N`` points uniformly distributed inside the ellipsoid define
-    by mean ``mu`` and covariance ``C``."""
+    by mean ``mu`` and covariance ``C``.
+
+    Example
+    -------
+
+    .. plot::
+       :include-source:
+
+       import matplotlib.pyplot as pl
+       import bluebell as bb
+       import bluebell.plot as bbplot
+
+       mu = np.random.rand(2)
+       A = np.random.rand(2,2)
+       C = A.T.dot(A)
+       x = bb.uniform_in_ellipsoid(mu, C, 100)
+       pl.plot(*x.T, 'o')
+       bbplot.cov_ellipse(mu, C, fc='none', ec='k')
+    """
     x = mu.reshape((1,-1))
     std = np.sqrt(np.diag(C))
     while len(x) < N+1:
@@ -269,7 +336,25 @@ def uniform_in_ellipsoid(mu, C, N):
 
 def vertices(mu, C):
     """Return the ``2*D`` points at the ends of each axis of the ellipsoid
-    defined by mean ``mu`` and covariance ``C``."""
+    defined by mean ``mu`` and covariance ``C``.
+
+    Example
+    -------
+
+    .. plot::
+       :include-source:
+
+       import matplotlib.pyplot as pl
+       import bluebell as bb
+       import bluebell.plot as bbplot
+
+       mu = np.random.rand(2)
+       A = np.random.rand(2,2)
+       C = A.T.dot(A)
+       x = bb.vertices(mu, C)
+       pl.plot(*x.T, 'o')
+       bbplot.cov_ellipse(mu, C, fc='none', ec='k')
+    """
     # should return VΣ¯¹[I,-I]
     # transpose is [I;-I]Σ¯¹V'
     D = len(C)
