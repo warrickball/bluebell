@@ -57,6 +57,16 @@ class TestBluebell(unittest.TestCase):
             np.testing.assert_allclose(c0, c1)
             np.testing.assert_allclose(A0, A1)
 
+    def test_linear_optimum(self):
+        for D in range(2, 9):
+            A = np.random.uniform(size=(D//2, D))
+            obs = np.zeros(D//2)
+            err = np.ones(D//2)
+            x = np.vstack((np.zeros(D), np.eye(D), -np.eye(D)))
+            y = x.dot(A.T) # (A.dot(x.T)).T
+            x0 = bb.linear_optimum(x, y, obs, err)
+            np.testing.assert_allclose(x0, np.zeros_like(x0), atol=1e-12)
+
     def test_propagate(self):
         for D in range(3,5):
             mu = np.zeros(D)

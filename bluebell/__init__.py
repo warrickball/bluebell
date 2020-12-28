@@ -189,6 +189,35 @@ def linearize(x, y, weights=None):
     return Q, B
 
 
+def linear_optimum(x, y, obs, err, weights=None, rcond=None):
+    """Given a set of points ``x``, the values ``y`` of some (vector)
+    function evaluated at those points, observed values of the
+    function ``obs`` and uncertainties on those observations ``err``,
+    finds the best-fitting parameters an affine model of ``y`` as a
+    function of ``x``.
+
+    Parameters
+    ----------
+    x: 2-d NumPy array of shape (N, D)
+        Points at which function has been evaluated.
+    y: 2-d NumPy array of shape (N, K)
+        Values of function at points in ``x``.
+    obs: 1-d NumPy array of shape (D,)
+        Observed values.
+    err: 1-d NumPy array of shape (D,)
+        Uncertainties on observed values.
+    weights: 1-d NumPy array, optional
+        Relative weights for the points in the fit.
+    rcond: float
+        ``rcond`` parameter passed to ``numpy.linalg.lstsq``.
+    """
+
+    Q, B = linearize(x, y, weights=weights)
+    Bp = B/err[:,None]
+    yp = (obs-Q)/err
+    return np.linalg.lstsq(Bp, yp, rcond=rcond)[0]
+
+
 def uniform_on_unit_sphere(N, D):
     """Draw ``N`` points uniformly distributed on the surface of a
     ``D``-dimensional unit sphere."""
