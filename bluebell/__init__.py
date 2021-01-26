@@ -81,7 +81,7 @@ def MVBE(x, tol=1e-3, maxiter=1000):
         j = np.argmax(g)
         du = I[j]-u
         alpha = (g[j]-(D+1))/(D+1)/(g[j]-1)
-        err = np.sum((alpha*du)**2)**0.5
+        err = np.linalg.norm(alpha*du)
         u = u + alpha*du
         i += 1
 
