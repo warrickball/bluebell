@@ -74,7 +74,7 @@ def MVBE(x, tol=1e-3, maxiter=1000):
     err = np.inf
     i = 0
     while err > tol and i < maxiter:
-        V = Q.dot(np.diag(u)).dot(Q.T)
+        V = (Q*u).dot(Q.T)
         Vinv = np.linalg.inv(V)
         # g = np.array([Qi.dot(Vinv).dot(Qi) for Qi in Q.T]) # slow but definitely correct
         g = np.sum(Q*(Vinv.dot(Q)), axis=0) # fast
